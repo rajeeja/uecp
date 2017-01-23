@@ -1,0 +1,44 @@
+open 'in.cub'
+delete block all
+block 1 vol 5 11
+dr block 1
+block 2 vol 1 10\
+dr block 2
+dr block 2
+block 2 vol 1 10
+dr block 2
+block 3 vol 3
+vol 4 block 4
+block 100 vol 4
+dr block all
+dr vol all
+sideset 1 surf 479 471 
+sideset 12 sideset 12
+draw Sideset 12
+dr face in sideset 12
+dr face in surf in sideset 12
+list Face 3660
+delete sideset 12
+dr vol in block 1 100
+dr vol in block 2 100
+dr vol in block 2 100
+sideset 12 surf with z_coord > 8.9 in vol 4 
+draw Sideset 12
+dr vol in block 2 100
+sideset 12 remove surf 4
+sideset 12 surf in selection
+draw Sideset 12
+sideset 12 surf 4
+draw Sideset 12
+delete sideset 111
+sideset 122 surf 74
+sideset 200 surf 459 464
+sideset 300 surf 69
+sideset 500 surf 472 480
+sideset 600 surf 136
+sideset 601 surf 477 473
+sideset 602 surf 138
+sideset 603 surf 481 469
+save as 'nobl_lpt.cub'
+block all element type hex27
+save as 'nobl_lpt.cub' over

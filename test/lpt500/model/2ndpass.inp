@@ -1,0 +1,10 @@
+MeshFile m_olpt_in.exo
+NeumannSet 12
+!Material 4
+Fixmat 11
+Thickness 0.5
+Intervals 1
+Bias 1.0
+Outfile lpt_bl.exo
+debug 1
+END

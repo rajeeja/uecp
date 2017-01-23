@@ -1,0 +1,10 @@
+MeshFile in.cub
+NeumannSet 13
+!Material 4
+Fixmat 3
+Thickness 2.0
+Intervals 4
+Bias 0.7
+Outfile olpt_in.exo
+debug 1
+END
