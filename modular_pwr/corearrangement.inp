@@ -1,0 +1,9 @@
+! 6            7            8             9             10            11            12   
+xx            xx            31_instr      24_cr_d       31_instr      xx            xx              & !  6          
+xx            31_instr      24_cr_d       31_16ba       24_cr_d       31_instr      xx              & !  7
+31_instr      24_cr_d       31_16ba       24_cr_d       31_16ba       24_cr_d       31_instr        & !  8
+24_cr_d       31_16ba       24_cr_d       16_instr      24_cr_d       31_16ba       24_cr_d        & !  9          
+31_instr      24_cr_d       31_16ba       24_cr_d       31_16ba       24_cr_d       31_instr        & !  10
+xx            31_instr      24_cr_d       31_16ba       24_cr_d       31_instr      xx              & !  11
+xx            xx            31_instr      24_cr_d       31_instr      xx            xx                !  12
+
