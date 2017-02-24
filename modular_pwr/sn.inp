@@ -1,0 +1,26 @@
+!   ########################################################
+!   This file will create two materials:
+! 100 - Duct will have 4 layers at the end as boundary layer
+! 101 - is a normal water cylindrical duct
+!   ########################################################
+GeometryType Hexagonal
+Geometry Volume
+Materials 5 Vessel VL Mat_Control Mat_Control water water water_bl1 water_bl1 water_bl2 water_bl2
+BLMaterials 2 water_bl1 0.2 3 water_bl2 0.7 4
+duct 3 0.00000 0.00000 0.00000 100.000 9.40000 10.0000 12.0000 water water_bl2 VL
+pincells 1
+Pin1 P1 2
+pitch 10.0000 0
+cylinder 2 0.00000 0.00000 0.00000 100.000 2.00000 2.20000 Mat_Control water_bl1
+Assembly 1
+P1 
+RadialMeshSize 0.40000
+Center
+Rotate Z 30.0000
+AxialMeshSize 50.0000
+meshtype Hex
+Scheme Hole
+neumannset_startid 100
+materialset_startid 100
+end
+                         

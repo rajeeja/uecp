@@ -162,7 +162,7 @@ block  5  vol  5
 imprint vol all
 merge vol all
 
-save as ' m_lpt_500_geom.cub' over
+save as 'm_lpt_500_geom.cub' over
 
 # Make some local modificaion as desired for required mesh
 
@@ -194,3 +194,4 @@ group 'g2' equals surf with z_coord = 0
 group 'g3' subtract g2 from g1
 sideset 111 surf in g3
 save as 'm_lpt_500.cub' over
+

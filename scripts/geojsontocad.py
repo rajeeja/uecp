@@ -39,9 +39,15 @@ scheme = 1
 file = sys.argv[1]
 ifile = sys.argv[1] + ".geojson"
 ofile = sys.argv[1] + ".jou"
+bfile = sys.argv[1] + ".txt"
+
 if os.path.exists(ofile):
     os.remove(ofile)
+if os.path.exists(bfile):
+    os.remove(bfile)    
 jou = open(ofile, "a")    
+bld = open(bfile, "a")    
+
 with open(ifile) as f:          
     data = json.load(f)
 height = []
@@ -54,15 +60,16 @@ for feature in data['features']:
     print ("# ", feature['properties']['bldg_name1'])
     print ("# ", feature['properties']['bldg_name2'])
     floor = feature['properties']['stories']
-#    height.append(feature['properties']['shape_len'])
+
     height.append(floor*3.0)
-    print ("# height ", height)
-    print ("# building id", feature['properties']['bldg_id'])
+  #  print ("# height ", height)
+  #  print ("# building id", feature['properties']['bldg_id'])
     a = feature['geometry']['coordinates']
 #    print ("# got this from json file: ", a)
     while i < len(a):        
-        print ("\n#Polygon has #points: ", len(a[i]) )
+        print ("\n#Polygon has #points: ", len(a[i]) ) 
         while j < len(a[i])-1:
+            print ("\n***0 point", a[i][j][0])
             lon = a[i][j][0]*math.pi/180.0
             lat = a[i][j][1]*math.pi/180.0
             if (scheme == 0):
@@ -99,6 +106,7 @@ for feature in data['features']:
             print(" #Warning: Careful, we have two surface describing this building", file=jou)
         i+=1
         j=0
+    
         
 for m in range(len(msurf_list)):
     print("subtract body ", msurf_list[m] + 1, " from body ", msurf_list[m], file=jou)
@@ -109,6 +117,9 @@ for i in range(numbodies):
     if (zmax < height[tbodies]):
         zmax = height[tbodies]
     found = 0
+    extrudeheight = -height[tbodies]
+    if (extrudeheight == 0):
+        extrudeheight = 30
     if(len(msurf_list) != 0):
         for m in range(len(msurf_list)):
             if( i == msurf_list[m]):
@@ -116,12 +127,12 @@ for i in range(numbodies):
 #                print("thicken body ", scount+m, " depth ", -height[tbodies], file=jou)
                 found = 1
         if (found == 0):
-            print("thicken body ", i+1, " depth ", -height[tbodies], file=jou)
+            print("thicken body ", i+1, " depth ", extrudeheight, file=jou)
             tbodies+=1
 
     else:
-        print("thicken body ", i+1, " depth ", -height[tbodies])
-        print("thicken body ", i+1, " depth ", -height[tbodies], file=jou)
+        print("thicken body ", i+1, " depth ", extrudeheight)
+        print("thicken body ", i+1, " depth ", extrudeheight, file=jou)
         tbodies+=1
 
         
@@ -154,6 +165,7 @@ print("sideset 111 surf in g3", file = jou)
 print("save as '" +  sys.argv[1]+ ".cub' over\nexit", file = jou)
 ##
 jou.close()
+bld.close()
 
 
 
