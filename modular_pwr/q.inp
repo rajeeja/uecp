@@ -1,0 +1,40 @@
+! ###############################################################################
+! Square PWR Assembly Definition without CellMaterials (Prism) around Pins - 2
+! ###############################################################################
+!
+GeometryType Rectangular 
+!
+Materials 2 Coolant WA Coolant_BLMat1 BL1 
+BLMaterials 1 Coolant_BLMat1 1.0 1
+!
+!Height calculation 205.232 = 240.392 - 35.160
+!
+DUCT 1 0.0 0.0 0 205.232 2.52 2.52 WA 
+!
+Pincells 1
+ControlRod CR 3
+Pitch  1.25984 1.25984 205.232 
+Cylinder 2 0.0 0.0  0.0 205.232  0.61214  0.619 CM BL1 
+cellmaterial 0.00000 205.232 WA
+!
+Assembly 2 2 
+! 1  2  
+CR  XX 
+XX  CR 
+center
+MaterialSet_StartId 12222
+NeumannSet_StartId 12222
+RadialMeshSize 0.22
+EdgeInterval 12
+AxialMeshSize 50
+!save_exodus
+scheme hole
+END     ! This is a must       
+
+1.25984/2-0.61214 = 0.01778           
+                                                                                         
+
+
+
+
+

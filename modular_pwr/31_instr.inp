@@ -4,26 +4,28 @@
 !
 GeometryType Rectangular 
 !
-Materials 10 Fuel_uox2 FF  Gap GP  Clad3 CL3  Clad2 CL2 Clad41 CL41 Clad42 CL42 WaterIn H2  WaterDuct H2D WaterHOLE H2H CRMaterial CM
+Materials 7 Fuel FF  Gap GP  Clad CL  Coolant WA BLMat1 BL1  BLMat2 BL2 BLMat3 BL3
 !
-DUCT 1 0.0 0.0 0 365.76 21.42 21.42 H2D 
+!Height calculation 205.232 = 240.392 - 35.160
+!
+DUCT 1 0.0 0.0 0 205.232 21.50364  21.50364 WA 
 !
 Pincells 3 
 !
 ! Standard fuel cell (1)
 FuelCell FC 2
-Pitch  1.26 1.26 365.76 
-Cylinder 3 0.0 0.0  0.0 365.76   0.4095 0.4180 0.4750  FF GP CL3                                                                                               
+Pitch  1.25984  1.25984  205.232 
+Cylinder 6 0.0 0.0  0.0 205.232   0.4095 0.4180 0.4750  0.4800  0.525  0.575 FF GP CL3 BL1 BL2 BL3                                                                                                
 !
 ! Guide Tube pin-cell (2)
 GuideTube GT 2
-Pitch  1.26 1.26 365.76 
-Cylinder 2 0.0 0.0  0.0 365.76   0.5715  0.6120  H2  CL2
+Pitch  1.25984 1.25984 205.232 
+Cylinder 4 0.0 0.0  0.0 205.232   0.61214  0.61714  0.66214  0.71214 CM BL1 BL2  BL3  
 !
 ! Control Rod pin-cell (3)
 ControlRod CR 2
-Pitch  1.26 1.26 365.76 
-Cylinder 4 0.0 0.0  0.0 365.76   0.3823 0.4839 0.5715  0.6120  CM CL41 H2H  CL42
+Pitch  1.25984 1.25984 205.232 
+Cylinder 4 0.0 0.0  0.0 205.232  0.61214  0.61714  0.66214  0.71214 CM BL1 BL2  BL3  
 !
 Assembly 17 17
 ! 1  2   3   4   5   6   7   8   9  10  11  12  13  14  15  16 17

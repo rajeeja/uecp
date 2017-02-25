@@ -1,0 +1,45 @@
+! ###############################################################################
+! Square PWR Assembly Definition without CellMaterials (Prism) around Pins - 2
+! ###############################################################################
+!
+GeometryType Rectangular 
+!
+Materials 7 Fuel FF  Gap GP  Clad CL  Coolant WA Coolant_BLMat1 BL1  Coolant_BLMat2 BL2 Coolant_BLMat3 BL3
+BLMaterials 3 Coolant_BLMat1 1.0 1 Coolant_BLMat2 1.0 1 Coolant_BLMat3 1.0 1 
+!
+!Height calculation 205.232 = 240.392 - 35.160
+!
+DUCT 1 0.0 0.0 0 205.232 2.52 2.52 WA 
+!
+Pincells 2
+!
+! Standard fuel cell (1)
+FuelCell FC 2
+Pitch  1.25984  1.25984  205.232 
+Cylinder 6 0.0 0.0  0.0 205.232   0.405765   0.41402   0.47498    0.489  0.5155  0.555 FF GP CL BL1 BL2 BL3 BL3                                                                                                
+! Control Rod pin-cell (3)
+ControlRod CR 2
+Pitch  1.25984 1.25984 205.232 
+Cylinder 2 0.0 0.0  0.0 205.232  0.61214  0.619 CM BL1 
+!
+Assembly 2 2 
+! 1  2  
+CR  CR 
+FC  CR 
+center
+MaterialSet_StartId 12222
+NeumannSet_StartId 12222
+RadialMeshSize 0.22
+EdgeInterval 12
+AxialMeshSize 50
+!save_exodus
+scheme hole
+END     ! This is a must       
+
+1.25984/2-0.61214 = 0.01778           
+                                                                                         
+
+
+
+
+

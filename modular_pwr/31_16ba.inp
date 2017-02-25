@@ -3,29 +3,28 @@
 ! ###############################################################################
 !
 GeometryType Rectangular 
-!Geometry Surface
 !
-Materials  9 Fuel FF Gap GP  CladPin CLP WaterCylinder H2 DuctWater H2D BARod18 B1  BLM1 BM1   BLM2 BM2  BLM3 BM3 
-BLMaterial 2 CladPin2 0.1 3
+Materials  6 Fuel FF Gap GP  CladPin CLP WaterCylinder H2 DuctWater H2D BARod18 B1   
+BLMaterial 2 CladPin2 3 0.1 0.8
 !
-DUCT 1 0.0 0.0 0 365.76 21.42 21.42 H2D 
+DUCT 1 0.0 0.0 0 205.232 21.42 21.42 H2D 
 !
 Pincells 3 
 !
 ! Standard fuel cell (1)
 FuelCell FC 2
-Pitch  1.26 1.26 365.76 
-Cylinder 4 0.0 0.0  0.0 365.76   0.4095 0.4180 0.4750 0.51  FF GP CLP  BLM1                                                                                             
+Pitch  1.25984 1.25984 205.232 
+Cylinder 3 0.0 0.0  0.0 205.232   0.4095 0.4180 0.4750  FF GP CLP                                                                                               
 !
 ! Guide Tube pin-cell (2)
 GuideTube GT 2
-Pitch  1.26 1.26 365.76 
-Cylinder 3 0.0 0.0  0.0 365.76   0.5715  0.61214 0.65 H2  CLP  BLM2
+Pitch  1.25984 1.25984 205.232 
+Cylinder 2 0.0 0.0  0.0 205.232   0.5715  0.61214  0.61714  0.66214  0.71214 CM BL1 BL2  BL3  H2  CLP
 !
 ! Standard BA Rod (3)
 BURNABLE_ABSORBER BA 2
-Pitch  1.26 1.26 365.76 
-Cylinder 4 0.0 0.0  0.0 365.76   0.4095 0.4180 0.4750 0.51 B1 GP CLP BLM3                                                                                              
+Pitch  1.25984 1.25984 205.232 
+Cylinder 3 0.0 0.0  0.0 205.232   0.4095 0.4180 0.4750  B1 GP CLP                                                                                               
 !
 !
 Assembly 17 17
@@ -53,8 +52,6 @@ NeumannSet_StartId 12
 RadialMeshSize 0.05
 AxialMeshSize 2
 save_exodus
-meshtype Hex
-Scheme Hole
 END     ! This is a must                  
                                                                                          
 
