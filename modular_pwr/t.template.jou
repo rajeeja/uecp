@@ -1,0 +1,27 @@
+group "gall" add vol all
+#{gtempid = Id("group")}
+
+#{Zmax = BBox_ZMax("group", gtempid)}
+#{Zmin = BBox_ZMin("group", gtempid)}
+## This file is created by rgg program in MeshKit ##
+##Schemes 
+#{CIRCLE ="circle interval 1 fraction 0.8"}
+#{HOLE = "hole rad_interval 2 bias 0.0"}
+#{PAVE = "pave"}
+#{MAP = "map"}
+#{SWEEP = "sweep"}
+#{TET = "tetmesh"}
+#{TOP_EDGE_INTERVAL = 12 }
+## Dimensions
+#{PITCHX =3.87}
+#{PITCHY =3.87}
+#{Z_HEIGHT = Zmax - Zmin}
+#{Z_MID = (Zmax + Zmin)/2.0}
+##Set Mesh Sizes
+#{AXIAL_MESH_SIZE = 50}
+#{RADIAL_MESH_SIZE = 0.22}
+#{fuel_surf_size = RADIAL_MESH_SIZE}
+#{gap_surf_size = RADIAL_MESH_SIZE}
+#{clad_surf_size = RADIAL_MESH_SIZE}
+#{coolant_surf_size = RADIAL_MESH_SIZE}
+#{coolant_blmat1_surf_size = RADIAL_MESH_SIZE}
