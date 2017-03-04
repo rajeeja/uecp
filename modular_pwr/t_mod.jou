@@ -1,4 +1,4 @@
-## This file is created by rgg program in MeshKit ##
+s## This file is created by rgg program in MeshKit ##
 #User needs to specify mesh interval and schemes in this file
 #
 #
@@ -127,11 +127,11 @@ surface in tmpgrp  size {coolant_surf_size}
 surface in tmpgrp scheme {PAVE}
 group 'tmpgrp' equals surface with name "coolant_blmat1_top"
 surface in tmpgrp  size {coolant_blmat1_surf_size}
-surface in tmpgrp scheme {HOLE}
+surface in tmpgrp scheme {PAVE}
 surf 8 scheme {HOLE}
 curve with length > 3.8 and length < 3.89 interval 24
-group 'gcellmat' add surf with area > 0.60 and area < 0.63
-group 'gcellmat' add surf with area > 0.37 and area < 0.39
+group 'gcellmat' add surf with area > 0.60 and area < 0.63 with z_coord > 4.8
+group 'gcellmat' add surf with area > 0.37 and area < 0.39 with z_coord > 4.8
 
 mesh surf in gcellmat
 #mesh surf with area > 0.37 and area < 0.63
@@ -149,13 +149,21 @@ mesh surf in group coolant_blmat2_hole_surfaces with z_coord = {Zmax}
 surf in group coolant_blmat1_hole_surfaces scheme hole rad_intervals 1 bias 1
 mesh surf in group coolant_blmat1_hole_surfaces with z_coord = {Zmax}
 #
+# mesh clad
+group 'tmpgrp' equals surface with name "clad_top"
+surf in group tmpgrp scheme hole rad_intervals 1 bias 1
+mesh surf in group tmpgrp
+# mesh gap
+group 'tmpgrp' equals surface with name "gap_top"
+surf in group tmpgrp scheme hole rad_intervals 1 bias 1
+mesh surf in group tmpgrp
+#
 group 'tmpgrp' add surface with name '_top'
 group 'tmpgrp1' subtract innerduct from tmpgrp
 group 'tmpgrp2' subtract bl_surfaces from tmpgrp1
 mesh tmpgrp2
 
-surf with z_coord > {Z_MID -.1*Z_HEIGHT} and z_coord < {Z_MID + .1*Z_HEIGHT} size {AXIAL_MESH_SIZE}
-surf all scheme {PAVE}
+surf with z_coord > {Z_MID -.1*Z_HEIGHT} and z_coord < {Z_MID + .1*Z_HEIGHT} interval 3
 mesh vol all
 #
 #Creating top surface sidesets
@@ -292,5 +300,10 @@ color body in g_coolant_blmat1 purple
 delete group all
 #
 #Save file
+delete sideset all
+sideset 11 surface in surface 161 87 21 35 57 139 117 191 213
+block all element type hex27
+export mesh 't.exo' over
 save as 't.cub' overwrite
+
 Timer Stop
