@@ -6,6 +6,8 @@ cubit.cmd('import \'in3.sat\'')
 ## ***** manual volume numbers ****
 cubit.cmd('create brick x 3.78 y 3.78  z 1')
 cubit.cmd('create brick x 3.9 y 3.9  z 1')
+cubit.cmd('body 48 name "coolant"')
+cubit.cmd('body 49 name "coolant"')
 cubit.cmd('move vol 48 z 0.5')
 cubit.cmd('move vol 49 z 0.5')
 cubit.cmd('subtract vol 48 from vol 49 ')

@@ -62,10 +62,45 @@ surf in fmesh size auto
 mesh surf in fmesh
 #
 #
+## ***** manual area numbers ****
 curve with length > 3.89 and length  < 3.91 interval 18
 surf with z_coord = 1.0 scheme pave
 mesh surf with z_coord = 1.0
+## ***** mesh hexes ****
 mesh vol all
-#
+#########
+#Creating groups
+group "g_fuel" add body with name "fuel"
+group "g_gap" add body with name "gap"
+group "g_clad" add body with name "clad"
+group "g_coolant" add body with name "coolant"
+#{nb1 =NumInGrp('g_fuel')}
+#{Ifndef(nb1)}
+#{else}
+block 12222 body in g_fuel
+block 12222 name "b_fuel"
+#{endif}
+#{nb2 =NumInGrp('g_gap')}
+#{Ifndef(nb2)}
+#{else}
+block 12223 body in g_gap
+block 12223 name "b_gap"
+#{endif}
+#{nb3 =NumInGrp('g_clad')}
+#{Ifndef(nb3)}
+#{else}
+block 12224 body in g_clad
+block 12224 name "b_clad"
+#{endif}
+#{nb4 =NumInGrp('g_coolant')}
+#{Ifndef(nb4)}
+#{else}
+block 12225 body in g_coolant
+block 12225 name "b_coolant"
+#{endif}
+block all element type hex27
+export mesh 'fl.exo' block 12225 overwrite
+export mesh 'sd.exo' block 12222 12223 12224  overwrite
 save as 'mesh1.cub' over
+
 exit()
