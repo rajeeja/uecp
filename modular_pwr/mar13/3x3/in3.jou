@@ -1,0 +1,249 @@
+## This file is created by rgg program in MeshKit ##
+#User needs to specify mesh interval and schemes in this file
+#
+#
+set logging on file 'in3.screenlog'
+Timer Start
+# Import geometry file 
+import 'in3.sat'
+{include("in3.template.jou")}
+#
+#RGG16 enabled for AssyGen
+group 'tmpgrp' equals surf with name 'coolant_blmat1_top*'
+surf in tmpgrp size {RADIAL_MESH_SIZE}
+group 'coolant_blmat1_hole_surfaces' equals surf in tmpgrp
+surface in group coolant_blmat1_hole_surfaces scheme hole rad_interval 1 bias 1
+group 'bl_surfaces' add surf in tmpgrp
+group 'tmpgrp' equals surf with name 'coolant_blmat2_top*'
+surf in tmpgrp size {RADIAL_MESH_SIZE}
+group 'coolant_blmat2_hole_surfaces' equals surf in tmpgrp
+surface in group coolant_blmat2_hole_surfaces scheme hole rad_interval 1 bias 1
+group 'bl_surfaces' add surf in tmpgrp
+group 'tmpgrp' equals surf with name 'coolant_blmat3_top*'
+surf in tmpgrp size {RADIAL_MESH_SIZE}
+group 'coolant_blmat3_hole_surfaces' equals surf in tmpgrp
+surface in group coolant_blmat3_hole_surfaces scheme hole rad_interval 1 bias 1
+group 'bl_surfaces' add surf in tmpgrp
+#Creating blocks, Note: you might need to combine some blocks
+#Creating groups
+group "g_fuel" add body with name "fuel*"
+group "g_gap" add body with name "gap*"
+group "g_clad" add body with name "clad*"
+group "g_coolant" add body with name "coolant*"
+group "g_coolant_blmat1" add body with name "coolant_blmat1*"
+#{nb1 =NumInGrp('g_fuel')}
+#{Ifndef(nb1)}
+#{else}
+block 500 body in g_fuel
+block 500 name "b_fuel"
+#{endif}
+#{nb2 =NumInGrp('g_gap')}
+#{Ifndef(nb2)}
+#{else}
+block 501 body in g_gap
+block 501 name "b_gap"
+#{endif}
+#{nb3 =NumInGrp('g_clad')}
+#{Ifndef(nb3)}
+#{else}
+block 502 body in g_clad
+block 502 name "b_clad"
+#{endif}
+#{nb4 =NumInGrp('g_coolant')}
+#{Ifndef(nb4)}
+#{else}
+block 503 body in g_coolant
+block 503 name "b_coolant"
+#{endif}
+#{nb5 =NumInGrp('g_coolant_blmat1')}
+#{Ifndef(nb5)}
+#{else}
+block 504 body in g_coolant_blmat1
+block 504 name "b_coolant_blmat1"
+#{endif}
+#
+#Imprint geometry
+imprint all
+#
+Merge Tolerance 0.0001
+#
+#Merge geometry
+merge all
+#
+#Set Meshing Scheme and Sizes, use template.jou to specify sizes
+group 'tmpgrp' equals surface with name "fuel_bot*"
+surface in tmpgrp  size {fuel_surf_size}
+group 'tmpgrp' equals surface with name "gap_bot*"
+surface in tmpgrp  size {gap_surf_size}
+group 'tmpgrp' equals surface with name "clad_bot*"
+surface in tmpgrp  size {clad_surf_size}
+group 'tmpgrp' equals surface with name "coolant_bot*"
+surface in tmpgrp  size {coolant_surf_size}
+group 'tmpgrp' equals surface with name "coolant_blmat1_bot*"
+surface in tmpgrp  size {coolant_blmat1_surf_size}
+#
+#Surfaces mesh, use template.jou to specify sizes
+group 'tmpgrp' equals surface with name "fuel_top*"
+surface in tmpgrp  size {fuel_surf_size}
+surface in tmpgrp scheme {PAVE}
+group 'tmpgrp' equals surface with name "gap_top*"
+surface in tmpgrp  size {gap_surf_size}
+surface in tmpgrp scheme {PAVE}
+group 'tmpgrp' equals surface with name "clad_top*"
+surface in tmpgrp  size {clad_surf_size}
+surface in tmpgrp scheme {PAVE}
+group 'tmpgrp' equals surface with name "coolant_top*"
+surface in tmpgrp  size {coolant_surf_size}
+surface in tmpgrp scheme {PAVE}
+group 'tmpgrp' equals surface with name "coolant_blmat1_top*"
+surface in tmpgrp  size {coolant_blmat1_surf_size}
+surface in tmpgrp scheme {PAVE}
+#
+group 'tmpgrp' add surface with name '*_top*'
+group 'tmpgrp1' subtract innerduct from tmpgrp
+group 'tmpgrp2' subtract bl_surfaces from tmpgrp1
+mesh tmpgrp2
+surf in group coolant_blmat1_hole_surfaces scheme hole rad_intervals 1 bias 1
+mesh surf in group coolant_blmat1_hole_surfaces with z_coord = {Zmax}
+surf in group coolant_blmat2_hole_surfaces scheme hole rad_intervals 1 bias 1
+mesh surf in group coolant_blmat2_hole_surfaces with z_coord = {Zmax}
+surf in group coolant_blmat3_hole_surfaces scheme hole rad_intervals 1 bias 1
+mesh surf in group coolant_blmat3_hole_surfaces with z_coord = {Zmax}
+mesh surf in innerduct with z_coord = {Zmax}
+#
+#Creating top surface sidesets
+create group 'surfall'
+group 'tmpgrp' equals surface with name 'fuel_top*' in vol in block 500
+sideset 501 surface in tmpgrp 
+sideset 501 name "fuel_top_ss"
+group 'tmpgrp' equals surface with name 'gap_top*' in vol in block 501
+sideset 502 surface in tmpgrp 
+sideset 502 name "gap_top_ss"
+group 'tmpgrp' equals surface with name 'clad_top*' in vol in block 502
+sideset 503 surface in tmpgrp 
+sideset 503 name "clad_top_ss"
+group 'tmpgrp' equals surface with name 'coolant_top*' in vol in block 503
+sideset 504 surface in tmpgrp 
+sideset 504 name "coolant_top_ss"
+group 'tmpgrp' equals surface with name 'coolant_blmat1_top*' in vol in block 504
+sideset 505 surface in tmpgrp 
+sideset 505 name "coolant_blmat1_top_ss"
+#
+group 'tmpgrp' equals surface with name 'coolant_blmat1_top*' in vol in block 500
+sideset 506 surface in tmpgrp 
+sideset 506 name "coolant_blmat1_top_ss"
+group 'tmpgrp' equals surface with name 'coolant_blmat1_top*' in vol in block 501
+sideset 507 surface in tmpgrp 
+sideset 507 name "coolant_blmat1_top_ss"
+group 'tmpgrp' equals surface with name 'coolant_blmat1_top*' in vol in block 502
+sideset 508 surface in tmpgrp 
+sideset 508 name "coolant_blmat1_top_ss"
+#
+#Creating bot/side surface sidesets
+#
+group 'tmpgrp' equals surface with name 'fuel_bot*' in vol in block 500
+sideset 509 surface in tmpgrp 
+sideset 509 name "fuel_bot_ss"
+#
+group 'tmpgrp' equals surface with name 'gap_bot*' in vol in block 501
+sideset 510 surface in tmpgrp 
+sideset 510 name "gap_bot_ss"
+#
+group 'tmpgrp' equals surface with name 'clad_bot*' in vol in block 502
+sideset 511 surface in tmpgrp 
+sideset 511 name "clad_bot_ss"
+#
+group 'tmpgrp' equals surface with name 'coolant_bot*' in vol in block 503
+sideset 512 surface in tmpgrp 
+sideset 512 name "coolant_bot_ss"
+#
+group 'tmpgrp' equals surface with name 'coolant_blmat1_bot*' in vol in block 504
+sideset 513 surface in tmpgrp 
+sideset 513 name "coolant_blmat1_bot_ss"
+group 'tmpgrp' equals surface with name 'fuel_bot*
+sideset 514 surface in tmpgrp 
+sideset 514 name "fuel_bot_ss"
+group 'tmpgrp' equals surface with name 'gap_bot*
+sideset 515 surface in tmpgrp 
+sideset 515 name "gap_bot_ss"
+group 'tmpgrp' equals surface with name 'clad_bot*
+sideset 516 surface in tmpgrp 
+sideset 516 name "clad_bot_ss"
+#
+group 'tmpgrp1' equals surf with name 'fuel_side1*'
+group 'tmpgrp2' equals surf with name 'fuel_side2*'
+group 'tmpgrp3' equals surf with name 'fuel_side3*'
+group 'tmpgrp4' equals surf with name 'fuel_side4*'
+sideset 517 surface in tmpgrp1 tmpgrp2 tmpgrp3 tmpgrp4'
+sideset 517 name "fuel_side2_ss"
+group 'tmpgrp5' equals surf with name 'fuel_side5*'
+group 'tmpgrp6' equals surf with name 'fuel_side6*'
+group 'tmpgrp7' equals surf with name 'fuel_side7*'
+group 'tmpgrp8' equals surf with name 'fuel_side8*'
+sideset 518 surface in tmpgrp5 tmpgrp6 tmpgrp7 tmpgrp8'
+sideset 518 name "fuel_side2_ss"
+group 'tmpgrp1' equals surf with name 'gap_side1*'
+group 'tmpgrp2' equals surf with name 'gap_side2*'
+group 'tmpgrp3' equals surf with name 'gap_side3*'
+group 'tmpgrp4' equals surf with name 'gap_side4*'
+sideset 519 surface in tmpgrp1 tmpgrp2 tmpgrp3 tmpgrp4'
+sideset 519 name "gap_side2_ss"
+group 'tmpgrp5' equals surf with name 'gap_side5*'
+group 'tmpgrp6' equals surf with name 'gap_side6*'
+group 'tmpgrp7' equals surf with name 'gap_side7*'
+group 'tmpgrp8' equals surf with name 'gap_side8*'
+sideset 520 surface in tmpgrp5 tmpgrp6 tmpgrp7 tmpgrp8'
+sideset 520 name "gap_side2_ss"
+group 'tmpgrp1' equals surf with name 'clad_side1*'
+group 'tmpgrp2' equals surf with name 'clad_side2*'
+group 'tmpgrp3' equals surf with name 'clad_side3*'
+group 'tmpgrp4' equals surf with name 'clad_side4*'
+sideset 521 surface in tmpgrp1 tmpgrp2 tmpgrp3 tmpgrp4'
+sideset 521 name "clad_side2_ss"
+group 'tmpgrp5' equals surf with name 'clad_side5*'
+group 'tmpgrp6' equals surf with name 'clad_side6*'
+group 'tmpgrp7' equals surf with name 'clad_side7*'
+group 'tmpgrp8' equals surf with name 'clad_side8*'
+sideset 522 surface in tmpgrp5 tmpgrp6 tmpgrp7 tmpgrp8'
+sideset 522 name "clad_side2_ss"
+group 'tmpgrp1' equals surf with name 'coolant_side1*'
+group 'tmpgrp2' equals surf with name 'coolant_side2*'
+group 'tmpgrp3' equals surf with name 'coolant_side3*'
+group 'tmpgrp4' equals surf with name 'coolant_side4*'
+sideset 523 surface in tmpgrp1 tmpgrp2 tmpgrp3 tmpgrp4'
+sideset 523 name "coolant_side2_ss"
+group 'tmpgrp5' equals surf with name 'coolant_side5*'
+group 'tmpgrp6' equals surf with name 'coolant_side6*'
+group 'tmpgrp7' equals surf with name 'coolant_side7*'
+group 'tmpgrp8' equals surf with name 'coolant_side8*'
+sideset 524 surface in tmpgrp5 tmpgrp6 tmpgrp7 tmpgrp8'
+sideset 524 name "coolant_side2_ss"
+group 'tmpgrp1' equals surf with name 'coolant_blmat1_side1*'
+group 'tmpgrp2' equals surf with name 'coolant_blmat1_side2*'
+group 'tmpgrp3' equals surf with name 'coolant_blmat1_side3*'
+group 'tmpgrp4' equals surf with name 'coolant_blmat1_side4*'
+sideset 525 surface in tmpgrp1 tmpgrp2 tmpgrp3 tmpgrp4'
+sideset 525 name "coolant_blmat1_side2_ss"
+group 'tmpgrp5' equals surf with name 'coolant_blmat1_side5*'
+group 'tmpgrp6' equals surf with name 'coolant_blmat1_side6*'
+group 'tmpgrp7' equals surf with name 'coolant_blmat1_side7*'
+group 'tmpgrp8' equals surf with name 'coolant_blmat1_side8*'
+sideset 526 surface in tmpgrp5 tmpgrp6 tmpgrp7 tmpgrp8'
+sideset 526 name "coolant_blmat1_side2_ss"
+#
+#Creating sideset for outer most side surfaces
+group 'tmpgrp' equals surf with name 'side_surface*'
+sideset 527 surface in tmpgrp 
+sideset 527 name "outer_side_ss"
+renumber hex all start_id 1000000
+#Set color for different parts
+color body in g_fuel thistle
+color body in g_gap grey
+color body in g_clad deepskyblue
+color body in g_coolant red
+color body in g_coolant_blmat1 purple
+delete group all
+#
+#Save file
+export mesh 'in3.exo' overwrite
+Timer Stop

@@ -1,0 +1,71 @@
+#
+reset
+import 'geom_3x3.sat'
+## ***** manual area numbers ****
+group 'fuelo' equals surf with area > 0.61 and area < 0.62 with z_coord = 1.0
+group 'hollow' equals surf with area > 0.38 and area < 0.39 with z_coord = 1.0
+group 'topout' equals surf in fuelo hollow
+# imprint for better sizing
+imprint curve 277 to 292 on surf in hollow
+delete curve with length < 3.77 
+delete curve with length > 3.79
+imprint curve 277 to 292 on surf in fuelo
+delete free curve all
+imprint vol all
+merge vol all
+curve with length > 1.25 and length < 1.26 interval 6
+curve with length > 2.54 and length < 3.74 interval 12
+curve with length > 3.83 and length < 3.89 interval 24
+# mesh gap
+group 'tmpgrp' equals surface with name "gap_top"
+surf in group tmpgrp scheme hole rad_intervals 1 bias 1
+mesh surf in group tmpgrp
+# mesh clad
+group 'tmpgrp' equals surface with name "clad_top"
+surf in group tmpgrp scheme hole rad_intervals 1 bias 1
+mesh surf in group tmpgrp
+group 'tmpgrp' equals surf with name 'coolant_blmat1_top'
+group 'coolant_blmat1_hole_surfaces' equals surf in tmpgrp
+group 'tmpgrp' equals surf with name 'coolant_blmat2_top'
+group 'coolant_blmat2_hole_surfaces' equals surf in tmpgrp
+group 'tmpgrp' equals surf with name 'coolant_blmat3_top'
+group 'coolant_blmat3_hole_surfaces' equals surf in tmpgrp
+surf in group coolant_blmat1_hole_surfaces scheme hole rad_intervals 1 bias 1
+surf in group coolant_blmat2_hole_surfaces scheme hole rad_intervals 1 bias 1
+surf in group coolant_blmat3_hole_surfaces scheme hole rad_intervals 1 bias 1
+mesh surf in group coolant_blmat1_hole_surfaces with z_coord = 1.0
+mesh surf in group coolant_blmat2_hole_surfaces with z_coord = 1.0
+mesh surf in group coolant_blmat3_hole_surfaces with z_coord = 1.0
+#delete mesh vol all prop
+group 'gout' equals surf with area > 0.1 and area < 0.12
+group 'gout' add surf with area > 0.046 and area < 0.05
+#diagonal
+curve with length > 0.27 and length < 0.28 interval 3
+# fuel gap
+#curve with length > 0.07 and length < 0.08 interval 1
+# control gap
+curve with length > 0.01 and length < 0.012 interval 1
+# one side of pincell
+curve with length > 0.62 and length < 0.64 interval 3
+# fuel outer
+curve with length > 0.87 and length < 0.88 interval 3
+# control outer
+curve with length > 0.48 and length < 0.49 interval 3
+#surf all scheme pave
+mesh surf in gout
+#
+##FUEL OUT MESHING
+#curve with length > 3.72 and length < 3.74  interval 12
+group 'fmesh' add surf with area > 0.15 and area < 0.16
+surf in fmesh size auto
+#surf in fmesh size 0.01
+mesh surf in fmesh
+#
+#
+curve with length > 3.89 and length  < 3.91 interval 18
+surf with z_coord = 1.0 scheme pave
+mesh surf with z_coord = 1.0
+mesh vol all
+#
+save as 'mesh1.cub' over
+exit()
