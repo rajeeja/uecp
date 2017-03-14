@@ -1,6 +1,0 @@
-import 'in3.sat'
-#
-####
-group 'tmpgrp' add body with name 'extramat'
-delete body in tmpgrp
-####
